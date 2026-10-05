@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .video-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+
+        .countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 30px 0;
+            color: #ffd700;
+        }
+
+        .instructions {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .instructions li {
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 20px 10px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .status {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Facebook Video Player</h1>
+        
+        <div class="video-info" id="videoInfo">
+            Loading video information...
+        </div>
+
+        <div class="countdown" id="countdown"></div>
+
+        <div class="status" id="status">
+            <div class="loading"></div> Preparing to play video...
+        </div>
+
+        <div class="instructions">
+            <strong>📌 To ensure watch time is counted:</strong>
+            <ol>
+                <li>✓ Make sure you're logged into Facebook</li>
+                <li>✓ Click the play button if video doesn't autoplay</li>
+                <li>✓ Keep this tab active (not minimized)</li>
+                <li>✓ Let the video play completely</li>
+                <li>✓ Don't mute or skip the video</li>
+            </ol>
+        </div>
+
+        <div>
+            <button class="btn" onclick="playNow()">▶ Play Video Now</button>
+            <button class="btn btn-secondary" onclick="window.close()">Close Tab</button>
+        </div>
+    </div>
+
+    <script>
+        // Get video URL from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('url');
+        const autoRedirect = urlParams.get('auto') !== 'false';
+
+        if (videoUrl) {
+            document.getElementById('videoInfo').textContent = videoUrl;
+        } else {
+            document.getElementById('videoInfo').textContent = 'No video URL provided';
+            document.getElementById('status').textContent = '❌ Error: No video URL';
+        }
+
+        let countdown = 3;
+
+        function updateCountdown() {
+            if (countdown > 0) {
+                document.getElementById('countdown').textContent = `Redirecting in ${countdown}...`;
+                countdown--;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                if (autoRedirect && videoUrl) {
+                    playNow();
+                }
+            }
+        }
+
+        function playNow() {
+            if (!videoUrl) {
+                alert('No video URL provided');
+                return;
+            }
+            
+            document.getElementById('status').innerHTML = '🚀 Opening video...';
+            
+            // Redirect to Facebook video
+            window.location.href = videoUrl;
+        }
+
+        // Start countdown if video URL exists
+        if (videoUrl && autoRedirect) {
+            updateCountdown();
+        } else {
+            document.getElementById('countdown').textContent = 'Ready';
+            document.getElementById('status').textContent = 'Click "Play Video Now" to start';
+        }
+    </script>
+</body>
+</html>

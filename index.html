@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Views</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landingPage" class="container">
+        <h1 class="main-title" id="mainTitle">Facebook Views</h1>
+        <p class="subtitle">Click the title to get started</p>
+    </div>
+
+    <!-- Multi-Tab Configuration Section -->
+    <div id="multiTabSection" class="container hidden">
+        <h2>Multi-Tab Configuration</h2>
+        
+        <div class="config-section">
+            <label for="tabCount">Number of Tabs:</label>
+            <input type="number" id="tabCount" min="1" max="100" value="10" placeholder="Enter number (e.g., 10 or 50)">
+        </div>
+
+        <div class="config-section">
+            <label>Playback Mode:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="playbackMode" value="single" checked>
+                    Play single video across all tabs
+                </label>
+                <label>
+                    <input type="radio" name="playbackMode" value="different">
+                    Play different videos in each tab
+                </label>
+            </div>
+        </div>
+
+        <!-- Single Video Input -->
+        <div id="singleVideoInput" class="config-section">
+            <label for="singleVideoUrl">Video/Reel URL:</label>
+            <input type="text" id="singleVideoUrl" placeholder="Enter Facebook video/reel URL or Video ID">
+            <small>Supported formats (all videos are now reels):</small>
+            <ul class="url-examples">
+                <li>https://www.facebook.com/reel/123456789</li>
+                <li>https://www.facebook.com/username/videos/123456789/ (auto-converts to reel)</li>
+                <li>https://www.facebook.com/watch?v=123456789 (auto-converts to reel)</li>
+                <li>https://fb.watch/abc123def/</li>
+                <li>https://www.facebook.com/share/v/123456789/</li>
+                <li>Just the video ID: 123456789012345</li>
+            </ul>
+        </div>
+
+        <!-- Multiple Videos Input -->
+        <div id="multipleVideosInput" class="config-section hidden">
+            <label>Video/Reel URLs (one per tab):</label>
+            <small>Accepts any Facebook video/reel URL format or just the video ID</small>
+            <div id="videoUrlsContainer"></div>
+        </div>
+
+        <button id="startBtn" class="btn btn-primary">Start Viewing</button>
+        <button id="backBtn" class="btn btn-secondary">Back to Home</button>
+    </div>
+
+    <!-- Video Player Section -->
+    <div id="playerSection" class="container hidden">
+        <div class="header-controls">
+            <h2>Facebook Views Player</h2>
+            <button id="stopAllBtn" class="btn btn-danger">Stop All Tabs</button>
+        </div>
+
+        <div id="tabsContainer" class="tabs-container"></div>
+
+        <button id="backToConfigBtn" class="btn btn-secondary">Back to Configuration</button>
+    </div>
+
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" 
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0" 
+        noplugin=1></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
